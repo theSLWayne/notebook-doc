@@ -2,7 +2,7 @@ from docstring_parser import parse
 from jinja2 import Template
 import os
 import inspect
-from typing import get_type_hints
+from typing import get_type_hints, Union, get_origin, get_args
 
 
 def get_functions(globals_dict: dict) -> dict:
@@ -58,19 +58,31 @@ def get_functions(globals_dict: dict) -> dict:
             # If there are parameters, get their types from type hints if they are available
             names_types = {}
             for param_name in param_names:
-                names_types[param_name] = (
-                    type_hints[param_name].__name__
-                    if param_name in type_hints
-                    else None
-                )
+                if param_name in type_hints:
+                    if get_origin(type_hints[param_name]) is Union:
+                        types = [type_hint.__name__ for type_hint in list(get_args(type_hints[param_name]))]
+                        names_types[param_name] = ' or '.join(types)
+                    else:
+                        names_types[param_name] = (
+                            type_hints[param_name].__name__
+                        )
+                else:
+                    names_types[param_name] = None
             func_type_list.append(names_types)
         else:
             # If not, add None
             func_type_list.append(None)
 
-        ret_type_list.append(
-            type_hints["return"].__name__ if "return" in type_hints else None
-        )
+        if "return" in type_hints:
+            if get_origin(type_hints["return"]) is Union:
+                types = [type_hint.__name__ for type_hint in list(get_args(type_hints["return"]))]
+                ret_type_list.append(' or '.join(types))
+            else:
+                ret_type_list.append(
+                    type_hints["return"].__name__
+                )
+        else:
+            ret_type_list.append(None)
 
     # Dictionary containing function details
     for func_name, docstring, func_head, func_types, ret_type in zip(
