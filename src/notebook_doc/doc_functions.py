@@ -122,7 +122,7 @@ def parse_docstrings(docstrings: dict) -> list:
                 {
                     "arg_name": arg.arg_name,
                     "arg_type": types[arg.arg_name]
-                    if types[arg.arg_name] is not None and arg.arg_name in types
+                    if arg.arg_name in types 
                     else arg.type_name,
                     "is_optional": arg.is_optional,
                     "default": arg.default,
