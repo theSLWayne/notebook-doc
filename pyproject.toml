@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "notebook-doc"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Hiran Hasanka", email="hiranhasanka@gmail.com" },
 ]
@@ -22,7 +22,7 @@ classifiers = [
 "Bug Tracker" = "https://github.com/theSLWayne/notebook-doc/issues"
 
 [tool.bumpver]
-current_version = "0.1.0"
+current_version = "0.1.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message  = "Bump version {old_version} -> {new_version}"
 commit          = true
