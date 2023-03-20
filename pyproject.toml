@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "Jinja2>=3.1.0", "docstring_parser>=0.15"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "notebook-doc"
+version = "0.0.1"
+authors = [
+  { name="Hiran Hasanka", email="hiranhasanka@gmail.com" },
+]
+description = "A package to create documentation for functions in Databricks notebooks"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
