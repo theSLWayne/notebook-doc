@@ -13,16 +13,6 @@ def get_functions(globals_dict: dict) -> dict:
     """
 
     docstrings = {}
-    # Functions to ignore
-    # native_functions = [
-    #     "get_functions",
-    #     "parse_docstrings",
-    #     "generate_html",
-    #     "render_documentation",
-    # ]
-
-    # Global variables dictionary
-    # global_dict = globals()
 
     # List of functions
     func_list = [
@@ -30,7 +20,6 @@ def get_functions(globals_dict: dict) -> dict:
         for func_name in globals_dict
         if callable(globals_dict[func_name])
         and globals_dict[func_name].__module__ == "__main__"
-        #and func_name not in native_functions
     ]
 
     # List of docstrings
@@ -60,12 +49,13 @@ def get_functions(globals_dict: dict) -> dict:
             for param_name in param_names:
                 if param_name in type_hints:
                     if get_origin(type_hints[param_name]) is Union:
-                        types = [type_hint.__name__ for type_hint in list(get_args(type_hints[param_name]))]
-                        names_types[param_name] = ' or '.join(types)
+                        types = [
+                            type_hint.__name__
+                            for type_hint in list(get_args(type_hints[param_name]))
+                        ]
+                        names_types[param_name] = " or ".join(types)
                     else:
-                        names_types[param_name] = (
-                            type_hints[param_name].__name__
-                        )
+                        names_types[param_name] = type_hints[param_name].__name__
                 else:
                     names_types[param_name] = None
             func_type_list.append(names_types)
@@ -75,12 +65,13 @@ def get_functions(globals_dict: dict) -> dict:
 
         if "return" in type_hints:
             if get_origin(type_hints["return"]) is Union:
-                types = [type_hint.__name__ for type_hint in list(get_args(type_hints["return"]))]
-                ret_type_list.append(' or '.join(types))
+                types = [
+                    type_hint.__name__
+                    for type_hint in list(get_args(type_hints["return"]))
+                ]
+                ret_type_list.append(" or ".join(types))
             else:
-                ret_type_list.append(
-                    type_hints["return"].__name__
-                )
+                ret_type_list.append(type_hints["return"].__name__)
         else:
             ret_type_list.append(None)
 
@@ -131,7 +122,7 @@ def parse_docstrings(docstrings: dict) -> list:
                 {
                     "arg_name": arg.arg_name,
                     "arg_type": types[arg.arg_name]
-                    if types[arg.arg_name] is not None
+                    if types[arg.arg_name] is not None and arg.arg_name in types
                     else arg.type_name,
                     "is_optional": arg.is_optional,
                     "default": arg.default,
