@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "notebook-doc"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
   "Jinja2>=3.1.0",
   "docstring_parser>=0.15"
@@ -26,7 +26,7 @@ classifiers = [
 "Bug Tracker" = "https://github.com/theSLWayne/notebook-doc/issues"
 
 [tool.bumpver]
-current_version = "0.1.4"
+current_version = "0.1.5"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message  = "Bump version {old_version} -> {new_version}"
 commit          = true
