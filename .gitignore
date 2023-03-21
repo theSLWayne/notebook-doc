@@ -1,3 +1,8 @@
 notebook_doc.egg-info
 dist
 commands.txt
+test
+__pycache__
+test.py
+test.ipynb
+test.html
