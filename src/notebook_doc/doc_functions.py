@@ -133,7 +133,7 @@ def parse_docstrings(docstrings: dict) -> list:
             if parsed_docstring.params is not None
             else None,
             "raises": [
-                {"type": raises.type_name, "description": raises.description}
+                {"type": raises.type_name, "description": raises.description.replace("\n", "<br>")}
                 for raises in parsed_docstring.raises
             ]
             if parsed_docstring.raises is not None
@@ -143,7 +143,7 @@ def parse_docstrings(docstrings: dict) -> list:
                 "type": ret_type
                 if ret_type is not None
                 else parsed_docstring.returns.type_name,
-                "description": parsed_docstring.returns.description,
+                "description": parsed_docstring.returns.description.replace("\n", "<br>"),
             }
             if parsed_docstring.returns is not None
             else None,
