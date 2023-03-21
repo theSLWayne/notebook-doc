@@ -36,3 +36,4 @@ push            = false
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
 "src/__init__.py" = ["{version}"]
+"src/notebook_doc/__init__.py" = ["{version}"]
