@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "notebook-doc"
 version = "0.1.4"
 dependencies = [
-  "Jinja2",
-  "docstring_parser"
+  "Jinja2>=3.1.0",
+  "docstring_parser>=0.15"
 ]
 authors = [
   { name="Hiran Hasanka", email="hiranhasanka@gmail.com" },
@@ -35,3 +35,4 @@ push            = false
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
+"src/__init__.py"_=_["{version}"]
