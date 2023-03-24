@@ -12,7 +12,7 @@ The package can be used as follows to generate documentation:
 
 1. Install the package (using PyPi - coming soon)
 2. Import the documentation generator function as follows:
-   ```{python}
+   ```python
    from notebook_doc import render_documentation
    ```
 3. Make sure that you have executed all cells that contain function definitions.
@@ -22,7 +22,7 @@ The package can be used as follows to generate documentation:
 
 Databricks `displayHTML` function can be directly used to display the HTML document returned by the `render_documentation` function.
 
-```{python}
+```python
 from notebook_doc import render_documentation
 
 displayHTML(render_documentation(globals(), module_name='Dummy Module'))
@@ -32,7 +32,7 @@ displayHTML(render_documentation(globals(), module_name='Dummy Module'))
 
 HTML output from `render_documentation` function can be written on a local HTML file so that documentation can be displayed as a HTML file.
 
-```{python}
+```python
 from notebook_doc import render_documentation
 
 html_output = render_documentation(globals(), module_name='Dummy Module')

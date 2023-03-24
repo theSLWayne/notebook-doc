@@ -1,3 +1,3 @@
-from notebook_doc import render_documentation
+from src import notebook_doc
 
 __version__ = "0.1.6"
