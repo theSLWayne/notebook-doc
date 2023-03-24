@@ -4,7 +4,6 @@ import os
 import inspect
 from typing import get_type_hints, Union, get_origin, get_args
 
-
 def get_functions(globals_dict: dict) -> dict:
     """Get names and details of all functions executed in the given notebook
 
