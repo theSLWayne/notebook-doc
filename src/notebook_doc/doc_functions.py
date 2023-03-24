@@ -117,7 +117,11 @@ def parse_docstrings(docstrings: dict) -> list:
             "name": func_name,
             "head": func_head,
             "short_description": parsed_docstring.short_description,
-            "long_description": parsed_docstring.long_description,
+            "long_description": parsed_docstring.long_description.replace(
+                "\n", "<br>"
+            ).replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+            if parsed_docstring.long_description
+            else parsed_docstring.long_description,
             "args": [
                 {
                     "arg_name": arg.arg_name,
