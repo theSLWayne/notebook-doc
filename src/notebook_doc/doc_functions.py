@@ -122,7 +122,7 @@ def parse_docstrings(docstrings: dict) -> list:
                 {
                     "arg_name": arg.arg_name,
                     "arg_type": types[arg.arg_name]
-                    if arg.arg_name in types 
+                    if arg.arg_name in types
                     else arg.type_name,
                     "is_optional": arg.is_optional,
                     "default": arg.default,
@@ -133,7 +133,12 @@ def parse_docstrings(docstrings: dict) -> list:
             if parsed_docstring.params is not None
             else None,
             "raises": [
-                {"type": raises.type_name, "description": raises.description.replace("\n", "<br>")}
+                {
+                    "type": raises.type_name,
+                    "description": raises.description.replace("\n", "<br>").replace(
+                        "\t", "&nbsp;&nbsp;&nbsp;&nbsp;"
+                    ),
+                }
                 for raises in parsed_docstring.raises
             ]
             if parsed_docstring.raises is not None
@@ -143,13 +148,17 @@ def parse_docstrings(docstrings: dict) -> list:
                 "type": ret_type
                 if ret_type is not None
                 else parsed_docstring.returns.type_name,
-                "description": parsed_docstring.returns.description.replace("\n", "<br>"),
+                "description": parsed_docstring.returns.description.replace(
+                    "\n", "<br>"
+                ).replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;"),
             }
             if parsed_docstring.returns is not None
             else None,
             "examples": [
                 {
-                    "description": example.description.replace("\n", "<br>"),
+                    "description": example.description.replace("\n", "<br>").replace(
+                        "\t", "&nbsp;&nbsp;&nbsp;&nbsp;"
+                    ),
                     "snippet": example.snippet,
                 }
                 for example in parsed_docstring.examples
@@ -263,7 +272,7 @@ def generate_html(docstrings: list, title: str) -> str:
                                 <li class="list-group-item">
                                     <div class="card">
                                         <div class="card-header">
-                                            {{ example.description }}
+                                            {{ example.description | safe }}
                                         </div>
                                     </div>
                                 </li>
