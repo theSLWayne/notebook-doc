@@ -215,7 +215,7 @@ def generate_html(docstrings: list, title: str) -> str:
                 <div class="container sticky-top">
                     <br>
                     <h5>Functions List</h5>
-                    <div class="card" style="width: 18rem;">
+                    <div class="card">
                         <ul class="list-group list-group-flush">
                         {% for docstring in docstrings %}
                             <li class="list-group-item">{{ docstring.name }}</a>
