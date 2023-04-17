@@ -54,7 +54,10 @@ def get_functions(globals_dict: dict) -> dict:
                         ]
                         names_types[param_name] = " or ".join(types)
                     else:
-                        names_types[param_name] = type_hints[param_name].__name__
+                        try:
+                            names_types[param_name] = type_hints[param_name].__name__
+                        except AttributeError:
+                            names_types[param_name] = None
                 else:
                     names_types[param_name] = None
             func_type_list.append(names_types)
@@ -174,7 +177,7 @@ def parse_docstrings(docstrings: dict) -> list:
     return funcs
 
 
-def generate_html(docstrings: list, title: str) -> str:
+def generate_html(docstrings: list, title: str, enable_links:bool) -> str:
     """Generate HTML file documenting the functions
 
     Generate HTML code that displays the functions and their docstrings as documentation.
@@ -182,6 +185,7 @@ def generate_html(docstrings: list, title: str) -> str:
     Args:
         docstrings: The list that includes details about each function
         title: Title of the module or the notebook
+        enable_links: Whether to enable links in the generated HTML document
 
     Returns:
         Rendered HTML document as a string.
@@ -212,17 +216,31 @@ def generate_html(docstrings: list, title: str) -> str:
         <div class="container bg-light">
         <div class="row">
             <div class="col-3">
-                <div class="container sticky-top">
-                    <br>
-                    <h5>Functions List</h5>
-                    <div class="card" style="width: 18rem;">
-                        <ul class="list-group list-group-flush">
-                        {% for docstring in docstrings %}
-                            <li class="list-group-item">{{ docstring.name }}</a>
-                        {% endfor %}
-                        </ul>
+                {% if links %}
+                    <div class="container sticky-top">
+                        <br>
+                        <h5>Functions List</h5>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                            {% for docstring in docstrings %}
+                                <a href="#{{ docstring.name }}" style="text-decoration: none; color: black;"><li class="list-group-item">{{ docstring.name }}</li></a>
+                            {% endfor %}
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                {% else %}
+                    <div class="container sticky-top">
+                        <br>
+                        <h5>Functions List</h5>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                            {% for docstring in docstrings %}
+                                <li class="list-group-item">{{ docstring.name }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
             <div class="col">
             <h5 class="display-6">Functions</h4>
@@ -303,12 +321,12 @@ def generate_html(docstrings: list, title: str) -> str:
     )
 
     # Render the HTML template with function details
-    html = template.render({"docstrings": docstrings, "title": title})
+    html = template.render({"docstrings": docstrings, "title": title, "links": enable_links})
 
     return html
 
 
-def render_documentation(globals_dict: dict, module_name: str = None) -> str:
+def render_documentation(globals_dict: dict, module_name: str = None, enable_links: bool = False) -> str:
     """Render documentation for a given notebook.
 
     Entry point to all functions - this should be invoked inside of the notebook to generate documentation for a notebook.
@@ -316,6 +334,9 @@ def render_documentation(globals_dict: dict, module_name: str = None) -> str:
     Args:
         globals_dict: globels() object
         module_name: Name of the module that is being documented. Optional. Will use 'Notebook' if not provided.
+        enable_links: Whether to enable links in the generated HTML document. This will include links for each function
+                    documentation on the left side of the HTML page. Recommended only if you are writing HTML documentation
+                    into a HTML file. These links will not work with Databricks generateHTML method. Optional. Defaulted to False.
 
     Returns:
         Documentation as HTML script
@@ -337,6 +358,7 @@ def render_documentation(globals_dict: dict, module_name: str = None) -> str:
     html_docs = generate_html(
         docstrings=parsed_docstrings,
         title=module_name if module_name is not None else "Notebook",
+        enable_links=enable_links
     )
 
     return html_docs
